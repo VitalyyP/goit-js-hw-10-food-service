@@ -13,8 +13,8 @@ const cardsMarkup = cardsTpl(cards);
 
 jsMenuRef.insertAdjacentHTML('beforeend', cardsMarkup);
 
-if (localStorage.getItem('theme') === 'dark') {
-  jsBodyRef.classList.add(`${Theme.DARK}`);
+if (localStorage.getItem('themeConst') === 'dark') {
+  setDarkTheme();
   jsThemeSwitchToggleRef.setAttribute('checked', 'true'); 
 }
 
@@ -22,16 +22,28 @@ jsThemeSwitchToggleRef.addEventListener('change', changeTheme);
 
 function changeTheme() {
   if (jsBodyRef.classList.contains(`${Theme.DARK}`)) {
-    jsBodyRef.classList.remove(`${Theme.DARK}`);
-    jsBodyRef.classList.add(`${Theme.LIGHT}`);
-    localStorage.setItem('theme', 'light');
+    toggleClassOnBody(`${Theme.DARK}`, `${Theme.LIGHT}`);
+    setConstTheme('light');
+
   } else if (jsBodyRef.classList.contains(`${Theme.LIGHT}`)) {
-    jsBodyRef.classList.remove(`${Theme.LIGHT}`);
-    jsBodyRef.classList.add(`${Theme.DARK}`);
-    localStorage.setItem('theme', 'dark');
+    toggleClassOnBody(`${Theme.LIGHT}`, `${Theme.DARK}`);
+    setConstTheme('dark');
+
   } else {
-    jsBodyRef.classList.add(`${Theme.DARK}`);
-    localStorage.setItem('theme', 'dark');
+    setDarkTheme();
+    localStorage.setItem('themeConst', 'dark');
   }
 }
 
+function toggleClassOnBody(rem, add) {
+  jsBodyRef.classList.remove(rem);
+  jsBodyRef.classList.add(add);
+}
+
+function setConstTheme(value) {
+  localStorage.setItem('themeConst', `${value}`);
+}
+
+function setDarkTheme() {
+  jsBodyRef.classList.add(`${Theme.DARK}`);
+}
